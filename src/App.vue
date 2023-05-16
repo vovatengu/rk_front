@@ -1,55 +1,46 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <router-view/>
-    </v-main>
-  </v-app>
+  <v-main>
+    <v-app> 
+  <component :is="layout"/>
+    </v-app>
+  </v-main>  
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+import MainLayout from './layouts/MainLayout.vue';
+import LoadingLayout from './layouts/LoadingLayout.vue';
+import NoLicLayout from './layouts/NoLicLayout.vue';
 
-export default {
-  name: 'App',
+export default{
 
+  components:{
+    MainLayout,
+    LoadingLayout,
+    NoLicLayout,
+  },
   data: () => ({
-    //
-  }),
-};
+        loading: false
+    }),
+  computed:{
+    ...mapGetters({ valid: "getLicValid"}),
+    layout(){
+      if (this.loading) {return 'LoadingLayout'}
+      return this.valid ?  'MainLayout' : 'NoLicLayout'
+      // return 'NoLicLayout'
+
+    }
+  },
+
+  async mounted() {
+    // await new Promise(r => setTimeout(r, 2000))
+    this.loading = true
+    this.$store.dispatch('loadLic')
+    // this.$store.dispatch('loadOrders')
+    this.loading = false
+    // let name = this.$store.getters.getLic
+
+    // console.log(name)
+}
+}
 </script>
