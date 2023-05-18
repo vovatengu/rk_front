@@ -12,15 +12,6 @@
 <script>
 export default {
     name:"OrderItem",
-    props:{
-        orderItem:{
-
-        }
-    }
+    props:["orderItem"],
 }
 </script>
-<!-- <template>
-    <div>
-        KEK
-    </div>
-</template> -->

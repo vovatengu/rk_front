@@ -1,9 +1,10 @@
 <template>
+  <Loading v-if="loading" text="Получение настроек"/>
+  <v-container v-else>
   <v-card elevation="0">
     <v-card-title>Настройки приложения</v-card-title>
     <v-card-text>
-
-      <v-form :disabled="!feature" @submit.prevent ="feature && setConfig()">
+      <v-form :disabled ="!feature">
       <v-row dense >
         <v-col>
           <v-text-field
@@ -43,22 +44,26 @@
       </v-row>
     </v-form>
     <v-btn v-if="feature" type="submit" @click="setConfig()">Сохранить</v-btn>
-    <!-- <v-btn class="ma-5" color="green" @click="setConfig()" :disabled="!editSettingsFeature">Сохранить</v-btn> -->
     </v-card-text>
   </v-card>
+</v-container>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import Loading from '../views/Loading.vue';
 export default {
-  // props: ["config","feature"],
+
+  components:{
+    Loading
+  },
   data:() =>({
     configLocal:{},
-    // feature:Boolean,
+    loading:true,
+
   }),
   computed:{
       ...mapGetters({feature:"getFeatureTwo"}),
-      // ...mapGetters[{feature1:"getFeatureTwo"}],
 
   },
   methods:{
@@ -71,13 +76,12 @@ export default {
     }
   },
   async mounted(){
+    // await new Promise(r => setTimeout(r, 2000))
     await this.getConfig();
-    console.log(this.configLocal)
-    console.log(this.feature)
+    this.loading = false;
+    // console.log(this.configLocal)
+    // console.log(this.feature)
   }
   
 };
 </script>
-
-<style>
-</style>

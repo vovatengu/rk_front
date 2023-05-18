@@ -1,7 +1,6 @@
 <template>
     <v-container >
 
-    <!-- <div> -->
       <v-app-bar color="primary" class="flex-grow-0" app dark>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-app-bar-title>Rk7</v-app-bar-title>
@@ -30,7 +29,6 @@
         </v-list>
       
     </v-navigation-drawer>
-<!-- </div> -->
 </v-container>
   </template>
   

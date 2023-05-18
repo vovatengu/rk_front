@@ -1,7 +1,9 @@
 <template>
   <v-main>
-    <v-app> 
-  <component :is="layout"/>
+    <v-app>
+      <transition name="layout" :duration="200" mode="out-in">
+        <component :is="layout"/>
+      </transition>
     </v-app>
   </v-main>  
 </template>
@@ -20,27 +22,19 @@ export default{
     NoLicLayout,
   },
   data: () => ({
-        loading: false
+        loading: true
     }),
   computed:{
     ...mapGetters({ valid: "getLicValid"}),
     layout(){
-      if (this.loading) {return 'LoadingLayout'}
-      return this.valid ?  'MainLayout' : 'NoLicLayout'
-      // return 'NoLicLayout'
-
+      return this.loading ? "LoadingLayout": this.valid? "MainLayout":"NoLicLayout"
     }
   },
 
   async mounted() {
     // await new Promise(r => setTimeout(r, 2000))
-    this.loading = true
-    this.$store.dispatch('loadLic')
-    // this.$store.dispatch('loadOrders')
+    await this.$store.dispatch('loadLic')
     this.loading = false
-    // let name = this.$store.getters.getLic
-
-    // console.log(name)
 }
 }
 </script>

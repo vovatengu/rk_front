@@ -13,7 +13,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    SideBar//, Fragment
+    SideBar,
   },
   computed: mapGetters({featureOne: "getFeatureOne"}),
 }
